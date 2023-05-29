@@ -14,12 +14,15 @@
 
 # Usage: 
 # =====
+# Easy use: "docker pull tiryoh/ros2-desktop-vnc:humble"
+# OR go through the below hedious process
 # 0. Browse to the folder containing this Dockerfile
 # 1. Build image: docker build --rm -t ubuntu-vnc-ros2 .
 # 2. Run container: docker run -p 6080:80 --name=ros2-vnc -d --shm-size=512m --security-opt seccomp=unconfined localhost/ubuntu-vnc-ros2
 # 3. Access Ubuntu LXDE via NoVNC in browser: http://127.0.0.1:6080/
 # 4. Stop (docker stop <cont_id> & remove (docker rm <cont_id>) container if required
 # 5. If intermediate images are still there (docker images -a), remove them manually (docker image rm <image_id>)
+# 6. Including "-v /home/$USER/:/home/ubuntu/" to mount local folder resulted in corrupting the permissions of the local file and also other software resets
 
 FROM tiryoh/ubuntu-desktop-lxde-vnc:jammy
 LABEL maintainer="Tiryoh<tiryoh@gmail.com>"
