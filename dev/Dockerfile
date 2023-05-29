@@ -15,7 +15,7 @@
 # Usage: 
 # =====
 # 0. Browse to the folder containing this Dockerfile
-# 1. Build image: docker build -rm -t ros2-vnc .
+# 1. Build image: docker build --rm -t ros2-vnc .
 # 2. Run container: docker run -p 6080:80 --name=ros2-vnc -d --shm-size=512m --security-opt seccomp=unconfined localhost/ros2-vnc
 # 3. Access Ubuntu LXDE via NoVNC in browser: http://127.0.0.1:6080/
 # 4. Stop (docker stop <cont_id> & remove (docker rm <cont_id>) container if required
