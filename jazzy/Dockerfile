@@ -98,7 +98,7 @@ RUN wget https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
     rm -rf /var/lib/apt/lists/*
 
 # Install ROS
-ENV ROS_DISTRO rolling
+ENV ROS_DISTRO jazzy
 # desktop or ros-base
 ARG INSTALL_PACKAGE=desktop
 
