@@ -1,3 +1,4 @@
+# https://github.com/Tiryoh/docker-ros2-desktop-vnc
 # Copyright 2020-2023 Tiryoh<tiryoh@gmail.com>
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,8 +44,7 @@ RUN apt-get update && \
         tigervnc-standalone-server tigervnc-common \
         supervisor wget curl gosu git sudo python3-pip tini \
         build-essential vim sudo lsb-release locales \
-        bash-completion tzdata terminator \
-        dos2unix && \
+        bash-completion tzdata terminator && \
     apt-get autoclean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
@@ -85,7 +85,7 @@ RUN wget https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
     rm -rf /var/lib/apt/lists/*
 
 # Install ROS
-ENV ROS_DISTRO humble
+ENV ROS_DISTRO iron
 # desktop or ros-base
 ARG INSTALL_PACKAGE=desktop
 
@@ -103,24 +103,22 @@ RUN apt-get update -q && \
 
 RUN rosdep update
 
-# Install simulation package only on amd64
-# Not ready for arm64 for now (July 28th, 2020)
-# https://github.com/Tiryoh/docker-ros2-desktop-vnc/pull/56#issuecomment-1196359860
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
-    apt-get update -q && \
-    apt-get install -y \
-    ros-${ROS_DISTRO}-gazebo-ros-pkgs \
-    ros-${ROS_DISTRO}-ros-ign && \
-    rm -rf /var/lib/apt/lists/*; \
-    fi
+# Install simulation packages are
+# not ready for amd64/arm64 for now (May 24th, 2023)
+# https://repo.ros2.org/status_page/ros_iron_default.html?q=RED
+# RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+#     apt-get update -q && \
+#     apt-get install -y \
+#     ros-${ROS_DISTRO}-gazebo-ros-pkgs \
+#     ros-${ROS_DISTRO}-ros-gz && \
+#     rm -rf /var/lib/apt/lists/*; \
+#     fi
 
 # Enable apt-get completion after running `apt-get update` in the container
 RUN rm /etc/apt/apt.conf.d/docker-clean
 
 COPY ./entrypoint.sh /
-RUN dos2unix /entrypoint.sh
 ENTRYPOINT [ "/bin/bash", "-c", "/entrypoint.sh" ]
 
 ENV USER ubuntu
 ENV PASSWD ubuntu
-
